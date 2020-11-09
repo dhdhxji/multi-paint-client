@@ -47,6 +47,14 @@ public class Canvas extends JComponent implements CanvasInterface {
         return _img.getRGB(x, y) & 0xffffff;
     }
 
+    public int width() {
+        return _img.getWidth();
+    }
+
+    public int height() {
+        return _img.getHeight();
+    }
+
 
 
     @Override

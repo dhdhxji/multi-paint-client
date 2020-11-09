@@ -110,6 +110,14 @@ public class Draw extends JFrame implements CanvasClickInterface{
         } catch(IndexOutOfBoundsException e) {}
     }
 
+    public int width() {
+        return _canvas.getWidth();
+    }
+
+    public int height() {
+        return _canvas.getHeight();
+    }
+
 
     public static final long serialVersionUID = 43L;
 
