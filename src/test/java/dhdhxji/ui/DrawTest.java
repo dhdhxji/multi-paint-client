@@ -1,7 +1,6 @@
 package dhdhxji.ui;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,11 +32,11 @@ public class DrawTest {
     public void testClick() {
         Draw d = new Draw(200, 200);
         d.registerPixUpdate(new PixelChangedWrapper());
-        d.click(10, 10);
+        d.setPixWithNotify(10, 10, 50);
 
-        assertTrue(tx != -1);
-        assertTrue(ty != -1);
-        assertEquals(0, tcolor);
+        assertEquals(10, tx);
+        assertEquals(10, ty);
+        assertEquals(50, tcolor);
     }
 
     @Test
@@ -45,15 +44,28 @@ public class DrawTest {
         Draw d = new Draw(200, 200);
         d.registerPixUpdate(new PixelChangedWrapper());
         System.out.print("1\n");
-        d.click(10, 10);
+        d.setPixWithNotify(10, 10, 50);
 
-        assertTrue(tx != -1);
-        assertTrue(ty != -1);
-        assertEquals(0, tcolor);
+        assertEquals(10, tx);
+        assertEquals(10, ty);
+        assertEquals(50, tcolor);
 
         resetState();
         System.out.print("2\n");
-        d.click(10, 10);
+        d.setPixWithNotify(10, 10, 50);
+
+        assertEquals(-1, tx);
+        assertEquals(-1, ty);
+        assertEquals(-1, tcolor);
+    }
+
+    @Test
+    public void testSetWithoutNotify() {
+        Draw d = new Draw(200, 200);
+        d.registerPixUpdate(new PixelChangedWrapper());
+
+        d.setPixWithoutNotify(10, 10, 50);
+        d.setPixWithNotify(10, 10, 50);
 
         assertEquals(-1, tx);
         assertEquals(-1, ty);

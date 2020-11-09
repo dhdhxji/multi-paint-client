@@ -91,9 +91,13 @@ public class Draw extends JFrame implements CanvasClickInterface{
         _pixChangedListeners.add(cb);
     }
 
+    public void setPixWithoutNotify(int x, int y, int color) {
+        try {
+            _canvas.setPixel(x, y, color);
+        } catch(IndexOutOfBoundsException e) {}
+    }
 
-
-    private void setPixWithNotify(int x, int y, int color) {
+    public void setPixWithNotify(int x, int y, int color) {
         try{
             if((_canvas.getPixel(x, y) & 0xffffff) != color) {
                 //color update
