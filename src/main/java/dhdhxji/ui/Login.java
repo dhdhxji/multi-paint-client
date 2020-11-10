@@ -100,6 +100,6 @@ public class Login extends JFrame {
 
     private Vector<LoginInterface> _loginListeners = new Vector<LoginInterface>();
     private JTextField _name = new JTextField();
-    private JTextField _address = new JTextField();
+    private JTextField _address = new JTextField("localhost");
     private JButton _connect = new JButton("Connect");
 }
