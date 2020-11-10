@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.awt.event.*;
 
 import dhdhxji.resolver.marshaller.Command;
 import dhdhxji.resolver.marshaller.Marshaller;
@@ -77,6 +78,10 @@ public class ClientHandler extends Thread implements PixelChangedInterface {
                 break;
             }
 
+            if(req == null) {
+                break;
+            }
+
             try {
                 processCommand(req);
             } catch(InvalidObjectException e) {
@@ -89,6 +94,7 @@ public class ClientHandler extends Thread implements PixelChangedInterface {
         }
 
         mainUploader.interrupt();
+        _draw.dispatchEvent(new WindowEvent(_draw, WindowEvent.WINDOW_CLOSING));
 
         try {
             mainUploader.join();
