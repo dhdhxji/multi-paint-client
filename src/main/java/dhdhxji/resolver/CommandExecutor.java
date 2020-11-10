@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import dhdhxji.resolver.marshaller.Marshaller;
+import dhdhxji.resolver.marshaller.commandDataImpl.CircleCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.LoginCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.SetCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.SizeCmd;
@@ -31,5 +32,6 @@ public class CommandExecutor implements LoginInterface{
             .registerCommand("login", LoginCmd.class)
             .registerCommand("set", SetCmd.class)
             .registerCommand("size", SizeCmd.class)
-            .registerCommand("strip", StripCmd.class);
+            .registerCommand("strip", StripCmd.class)
+            .registerCommand("circle", CircleCmd.class);
 }

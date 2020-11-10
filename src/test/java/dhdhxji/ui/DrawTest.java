@@ -19,6 +19,13 @@ public class DrawTest {
             ty = y;
             tcolor = color;
         }
+
+        @Override
+        public void drawCircle(int x, int y, int radius, int color) {
+            tx = x;
+            ty = y;
+            tcolor = color;
+        }
     }
 
     @Before

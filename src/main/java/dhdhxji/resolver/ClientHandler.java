@@ -13,6 +13,7 @@ import java.awt.event.*;
 
 import dhdhxji.resolver.marshaller.Command;
 import dhdhxji.resolver.marshaller.Marshaller;
+import dhdhxji.resolver.marshaller.commandDataImpl.CircleCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.LoginCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.SetCmd;
 import dhdhxji.resolver.marshaller.commandDataImpl.SizeCmd;
@@ -118,6 +119,24 @@ public class ClientHandler extends Thread implements PixelChangedInterface {
 
                 _draw.setPixWithoutNotify(x, y, data.pixels[i]);
             }
+        } else if(reqCommand.commandName.equals("circle")) {
+            CircleCmd data = (CircleCmd)reqCommand.commandData;
+
+            _draw.setCircleWithoutNotify(data.x, data.y, data.radius, data.color);
+        }
+    }
+
+    @Override
+    public void drawCircle(int x, int y, int radius, int color) {
+        Command drawCircle = new Command(
+            "circle",
+            new CircleCmd(x, y, radius, color)
+        );
+
+        try {
+            _sendQueue.add(_marshaller.serialize(drawCircle));
+        } catch(InvalidObjectException e) {
+            System.err.println("Can not serialize circle command");
         }
     }
 

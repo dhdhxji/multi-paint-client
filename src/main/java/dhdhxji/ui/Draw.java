@@ -73,17 +73,12 @@ public class Draw extends JFrame implements CanvasClickInterface{
 
     public void click(int x, int y) {
         final int radius = _brushSize.getValue()/2;
-        final int sqPointRadius = radius*radius;
         final int color = _colorChooser.getColor().getRGB() & 0xffffff;
-        
-        for(int yd = 0; yd < radius; ++yd) {
-            final int chordArm = (int)Math.sqrt(sqPointRadius - yd*yd);
-            for(int xd = 0; xd < chordArm; ++xd) {
-                setPixWithNotify(x + xd, y + yd, color);
-                setPixWithNotify(x - xd, y + yd, color);
-                setPixWithNotify(x + xd, y - yd, color);
-                setPixWithNotify(x - xd, y - yd, color);
-            }
+
+        setCircleWithoutNotify(x, y, radius, color);
+
+        for (PixelChangedInterface l : _pixChangedListeners) {
+            l.drawCircle(x, y, radius, color);
         }
     }
 
@@ -108,6 +103,17 @@ public class Draw extends JFrame implements CanvasClickInterface{
 
             _canvas.setPixel(x, y, color);
         } catch(IndexOutOfBoundsException e) {}
+    }
+
+    public void setCircleWithoutNotify(int x, int y, int r, int color) {
+        final int sqPointRadius = r*r;
+        
+        for(int yd = -r; yd < r; ++yd) {
+            final int chordArm = (int)Math.sqrt(sqPointRadius - yd*yd);
+            for(int xd = -chordArm; xd < chordArm; ++xd) {
+                setPixWithoutNotify(x+xd, y+yd, color);
+            }
+        }
     }
 
     public int width() {
