@@ -69,7 +69,8 @@ public class Canvas extends JComponent implements CanvasInterface {
 
     @Override
     protected void processMouseEvent(MouseEvent ev) {
-        if((ev.getButton() & MouseEvent.BUTTON1) > 0) {
+        if((ev.getButton() & MouseEvent.BUTTON1) > 0 && 
+           (ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) > 0) {
             processClicked(ev.getX(), ev.getY());
         }
     }
