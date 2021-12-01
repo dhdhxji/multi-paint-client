@@ -17,6 +17,8 @@ import dhdhxji.ui.common.PixelChangedInterface;
 public class Draw extends JFrame implements CanvasClickInterface{
     public Draw(int w, int h) {
         super("Drawing");
+        _w = w;
+        _h = h;
 
         _canvas = new Canvas(w, h);
         _canvas.registerClickListener(this);
@@ -117,11 +119,11 @@ public class Draw extends JFrame implements CanvasClickInterface{
     }
 
     public int width() {
-        return _canvas.getWidth();
+        return _w;
     }
 
     public int height() {
-        return _canvas.getHeight();
+        return _h;
     }
 
 
@@ -130,5 +132,7 @@ public class Draw extends JFrame implements CanvasClickInterface{
     private Vector<PixelChangedInterface> _pixChangedListeners = new Vector<PixelChangedInterface>();
     private Canvas _canvas = null;
     private JSlider _brushSize = new JSlider(10, 100);
+    private int _w;
+    private int _h;
     JColorChooser _colorChooser = new JColorChooser();
 }
