@@ -20,7 +20,7 @@ public class Draw extends JFrame implements CanvasClickInterface{
         _w = w;
         _h = h;
 
-        _canvas = new Canvas(w, h);
+        _canvas = new Canvas(w, h, 1);
         _canvas.registerClickListener(this);
         _canvas.setSize(new Dimension(w, h));
         
@@ -131,7 +131,7 @@ public class Draw extends JFrame implements CanvasClickInterface{
 
     private Vector<PixelChangedInterface> _pixChangedListeners = new Vector<PixelChangedInterface>();
     private Canvas _canvas = null;
-    private JSlider _brushSize = new JSlider(10, 100);
+    private JSlider _brushSize = new JSlider(1, 10);
     private int _w;
     private int _h;
     JColorChooser _colorChooser = new JColorChooser();
