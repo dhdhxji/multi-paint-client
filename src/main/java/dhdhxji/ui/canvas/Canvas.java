@@ -9,9 +9,12 @@ import java.awt.*;
 
 
 public class Canvas extends JComponent implements CanvasInterface {
-    public Canvas(int width, int height) {
-        _img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        
+    public Canvas(int width, int height, int pix_width) {
+        _img = new BufferedImage(width*pix_width, height*pix_width, BufferedImage.TYPE_INT_RGB);
+        _pix_width = pix_width;
+        _w = width;
+        _h = height;
+
         for(int y = 0; y < height; ++y) {
             for(int x = 0; x < width; ++x) {
                 _img.setRGB(x, y, 0xffffff);
@@ -28,13 +31,20 @@ public class Canvas extends JComponent implements CanvasInterface {
     
     @Override
     public void setPixel(int x, int y, int color) throws IndexOutOfBoundsException{
-        if(x < 0 || x >= _img.getWidth() ||
-           y < 0 || y >= _img.getHeight()) {
+        if(x < 0 || x >= width() ||
+           y < 0 || y >= height()) {
             throw new IndexOutOfBoundsException();   
         }
-        _img.setRGB(x, y, color);
+        x = x*_pix_width;
+        y = y*_pix_width;
+        
+        for(int dx = 0; dx < _pix_width; ++dx) {
+            for(int dy = 0; dy < _pix_width; ++dy) {
+                _img.setRGB(x+dx, y+dy, color);
+            }
+        }
 
-        repaint(x, y, 1, 1);
+        repaint(x, y, _pix_width, _pix_width);
     }
 
     @Override
@@ -48,11 +58,11 @@ public class Canvas extends JComponent implements CanvasInterface {
     }
 
     public int width() {
-        return _img.getWidth();
+        return _w;
     }
 
     public int height() {
-        return _img.getHeight();
+        return _h;
     }
 
 
@@ -69,7 +79,8 @@ public class Canvas extends JComponent implements CanvasInterface {
 
     @Override
     protected void processMouseEvent(MouseEvent ev) {
-        if((ev.getButton() & MouseEvent.BUTTON1) > 0) {
+        if((ev.getButton() & MouseEvent.BUTTON1) > 0 && 
+           (ev.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) > 0) {
             processClicked(ev.getX(), ev.getY());
         }
     }
@@ -85,7 +96,7 @@ public class Canvas extends JComponent implements CanvasInterface {
 
     private void processClicked(int x, int y) {
         for (CanvasClickInterface listener : _listeners) {
-            listener.click(x, y);
+            listener.click(x/_pix_width, y/_pix_width);
         }
     }
 
@@ -96,4 +107,7 @@ public class Canvas extends JComponent implements CanvasInterface {
 
     private Vector<CanvasClickInterface> _listeners = new Vector<CanvasClickInterface>();
     private BufferedImage _img = null;
+    private int _pix_width; 
+    private int _w;
+    private int _h;
 }
